@@ -1,0 +1,22 @@
+int main(){
+  for(int i=0; i<6; i++){
+    Claw.setStopping(hold);
+    Claw.setMaxTorque(30, percent);
+    Claw.setTimeout(2, seconds);
+    Claw.spinToPosition(90, degrees);
+    Drivetrain.turnFor(left, 170, degrees);
+    Drivetrain.driveFor(forward, 900, mm, 40, velocityUnits::pct);
+    Arm.setStopping(coast);
+    Arm.setTimeout(5, seconds);
+    Arm.spinToPosition(270, degrees);
+    Drivetrain.driveFor(forward, 120, mm, 40, velocityUnits::pct);
+    Claw.spinToPosition(0, degrees);
+    wait(2, seconds);
+    Drivetrain.driveFor(reverse, 120, mm, 40, velocityUnits::pct);
+    wait(0.5, seconds);
+    Drivetrain.turnFor(left, 170, degrees);
+    Arm.spinToPosition(0, degrees);
+    Drivetrain.driveFor(forward, 850, mm, 40, velocityUnits::pct);
+    wait(2, seconds);
+  }
+}
