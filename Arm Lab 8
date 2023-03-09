@@ -1,0 +1,67 @@
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// RoboticArm1          RoboticArm    1, 2, 3, 4, A, B, C, D
+// EStop                bumper        E               
+// Magnet5              electromagnet 5               
+// Optical6             optical       6               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+
+#include "vex.h"
+
+using namespace vex;
+
+float myVariable;
+
+event message1 = event();
+
+// "when EStop pressed" hat block
+void onevent_EStop_pressed_0() {
+  RoboticArm1.emergencyStop();
+}
+
+int main() {
+  // register event handlers
+  EStop.pressed(onevent_EStop_pressed_0);
+
+  wait(15, msec);
+  // post event registration
+
+  // set default print color to black
+  printf("\033[30m");
+
+  // wait for rotation sensor to fully initialize
+  wait(30, msec);
+
+  //whenStarted1();
+  //whenStarted2();
+  RoboticArm1.setMasteringValues(1864,2135,1965,414);
+  RoboticArm1.setLinearMoveSpeed(7.0);
+  RoboticArm1.setToolTipOffset(-0.7, 0.0, -2.0);
+  Magnet5.setPower(100.0);
+  Optical6.setLightPower(80, percent);
+  float x =3;
+
+  while(true){
+    RoboticArm1.moveToPositionLinear(8.627, -6.000, 5);
+    RoboticArm1.moveToPositionLinear(8.627, -6.000, x);
+    wait(1.0, seconds);
+    Magnet5.pickup(5);
+    wait(1.0, seconds);
+    RoboticArm1.moveToPositionLinear(8.627, -6.000, 5);
+    RoboticArm1.moveToPositionLinear(8.230, -1.121, 3.5);
+    wait(1.0, seconds);
+    if (Optical6.color()==red) {
+      RoboticArm1.moveToPositionLinear(9.431, 3.218, 4.589);
+    } else if(Optical6.color()==green){
+      RoboticArm1.moveToPositionLinear(9.459, 4.961, 4.589);
+    } else if(Optical6.color()==blue){
+      RoboticArm1.moveToPositionLinear(8.026, 4.848, 4.589);
+    }
+    wait(1.0, seconds);
+    Magnet5.drop();
+    wait(1.0, seconds);
+    RoboticArm1.moveToPositionLinear(5.2, 0.215, 4.5);
+    x--;
+  }
+}
